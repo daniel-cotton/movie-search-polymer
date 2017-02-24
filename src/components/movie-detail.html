@@ -1,0 +1,59 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/paper-input/paper-input.html">
+<link rel="import" href="../../bower_components/iron-list/iron-list.html">
+<link rel="import" href="../../bower_components/iron-ajax/iron-ajax.html">
+<link rel="import" href="../../bower_components/paper-item/paper-item.html">
+<link rel="import" href="../../bower_components/paper-item/paper-item-body.html">
+<link rel="import" href="../../bower_components/paper-card/paper-card.html">
+<link rel="import" href="../../bower_components/star-rating/star-rating.html">
+
+<dom-module id="movie-detail">
+    <template>
+        <style>
+            :host {
+                display: block;
+            }
+            paper-card {
+                min-width: 500px;
+            }
+        </style>
+        <paper-card heading="[[title]]" image="[[_results.Poster]]">
+            <div class="card-content">
+                <star-rating rate="{{_getStarRating(_results.imdbRating)}}"></star-rating>
+                <h4>Year </h4>
+                <p>[[_results.Year]]</p>
+                <h4>Director </h4>
+                <p>[[_results.Director]]</p>
+                <h4>Genre </h4>
+                <p>[[_results.Genre]]</p>
+                <h4>Plot </h4>
+                <p>[[_results.Plot]]</p>
+            </div>
+        </paper-card>
+
+        <iron-ajax
+                auto
+                url="[[_getDetailUrlFromTitle(title)]]"
+                handle-as="json"
+                last-response="{{_results}}">
+        </iron-ajax>
+
+    </template>
+
+    <script>
+        Polymer({
+
+            is: 'movie-detail',
+
+            properties: {
+            },
+            _getStarRating: function (imdb) {
+                return (parseFloat(imdb) / 2);
+            },
+            _getDetailUrlFromTitle: function (term) {
+                return 'https://omdbapi.com/?t="' + term + '"';
+            }
+
+        });
+    </script>
+</dom-module>

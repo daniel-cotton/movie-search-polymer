@@ -1,4 +1,13 @@
 <link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../components/search-view.html">
+<link rel="import" href="../components/movie-detail.html">
+<link rel="import" href="../../bower_components/iron-pages/iron-pages.html">
+<link rel="import" href="../../bower_components/app-route/app-location.html">
+<link rel="import" href="../../bower_components/app-route/app-route.html">
+
+<link rel="import" href="../../bower_components/paper-toolbar/paper-toolbar.html">
+<link rel="import" href="../../bower_components/paper-icon-button/paper-icon-button.html">
+<link rel="import" href="../../bower_components/iron-icons/iron-icons.html">
 
 <dom-module id="main-application">
   <template>
@@ -7,7 +16,28 @@
         display: block;
       }
     </style>
-    <h2>Hello [[prop1]]</h2>
+    <paper-toolbar>
+      <paper-icon-button icon="menu" on-tap="goHome"></paper-icon-button>
+      <div class="title">Movie Search</div>
+    </paper-toolbar>
+    <app-location route="{{route}}"></app-location>
+    <app-route
+            route="{{route}}"
+            pattern="/:page"
+            data="{{routeData}}"
+            tail="{{subroute}}">
+    </app-route>
+    <app-route
+            route="{{subroute}}"
+            pattern="/:title"
+            data="{{subrouteData}}">
+    </app-route>
+    <template is="dom-if" if="[[!_isDetailPage(routeData)]]">
+      <search-view></search-view>
+    </template>
+    <template is="dom-if" if="[[_isDetailPage(routeData)]]">
+      <movie-detail title="[[subrouteData.title]]"></movie-detail>
+    </template>
   </template>
 
   <script>
@@ -21,6 +51,12 @@
           value: 'main-application',
         },
       },
+      goHome: function () {
+        this.set('route.path', '/');
+      },
+      _isDetailPage: function (data) {
+        return data.page === 'movie-detail'
+      }
 
     });
   </script>

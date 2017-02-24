@@ -1,0 +1,54 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/paper-input/paper-input.html">
+<link rel="import" href="../../bower_components/iron-list/iron-list.html">
+<link rel="import" href="../../bower_components/iron-ajax/iron-ajax.html">
+<link rel="import" href="../../bower_components/paper-item/paper-item.html">
+<link rel="import" href="../../bower_components/paper-item/paper-item-body.html">
+
+<dom-module id="search-view">
+    <template>
+        <style>
+            :host {
+                display: block;
+            }
+        </style>
+
+        <paper-input value="{{_term}}" label="Search Term"></paper-input>
+
+        <iron-list items="[[_results.Search]]">
+            <template>
+                <paper-item>
+                    <paper-item-body two-line>
+                        <div><a href="[[_getUrl(item.Title)]]">[[item.Title]]</a></div>
+                        <div secondary>Year: [[item.Year]]</div>
+                    </paper-item-body>
+                </paper-item>
+            </template>
+        </iron-list>
+
+        <iron-ajax
+        auto
+        url="[[_getUrlFromSearchTerm(_term)]]"
+        handle-as="json"
+        last-response="{{_results}}">
+        </iron-ajax>
+
+    </template>
+
+    <script>
+        Polymer({
+
+            is: 'search-view',
+
+            properties: {
+            },
+            _getUrl: function (title) {
+                return '/movie-detail/' + title;
+            },
+            _getUrlFromSearchTerm: function (term) {
+                return 'https://omdbapi.com/?s="' + term + '"';
+            }
+
+        });
+    </script>
+</dom-module>
