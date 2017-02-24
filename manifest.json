@@ -1,0 +1,7 @@
+{
+  "name": "movie-search-polymer",
+  "short_name": "movie-search-polymer",
+  "description": "Movie search",
+  "start_url": "/",
+  "display": "standalone"
+}
