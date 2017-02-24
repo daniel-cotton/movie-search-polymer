@@ -15,6 +15,12 @@
       :host {
         display: block;
       }
+      main {
+        display: flex;
+        width: 100%;
+        height: 100%;
+        justify-content: center;
+      }
     </style>
     <paper-toolbar>
       <paper-icon-button icon="menu" on-tap="goHome"></paper-icon-button>
@@ -32,12 +38,14 @@
             pattern="/:title"
             data="{{subrouteData}}">
     </app-route>
-    <template is="dom-if" if="[[!_isDetailPage(routeData)]]">
-      <search-view></search-view>
-    </template>
-    <template is="dom-if" if="[[_isDetailPage(routeData)]]">
-      <movie-detail title="[[subrouteData.title]]"></movie-detail>
-    </template>
+    <main>
+      <template is="dom-if" if="[[!_isDetailPage(routeData)]]">
+        <search-view></search-view>
+      </template>
+      <template is="dom-if" if="[[_isDetailPage(routeData)]]">
+        <movie-detail title="[[subrouteData.title]]"></movie-detail>
+      </template>
+    </main>
   </template>
 
   <script>
